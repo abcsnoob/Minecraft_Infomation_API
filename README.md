@@ -94,7 +94,7 @@ Các hàm chính:
 ```
 * Cách dùng:
 ```javascript
-import { getMinecraftUserData } from "[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js)";
+import { getMinecraftUserData } from "https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js";
 
 getMinecraftUserData("Dream").then(data => {
 console.log("Tên:", data.name);
@@ -114,10 +114,10 @@ console.error("Lỗi khi lấy dữ liệu:", err);
 * Trả về: URL string
 * Cách dùng:
 ```Javascript
-import { getSkin3DUrl } from "[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js)";
+import { getSkin3DUrl } from "https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js";
 
 const url = getSkin3DUrl("Dream");
-console.log(url);  // [https://abcsnoobmcname.42web.io/api/3dskin/Dream](https://abcsnoobmcname.42web.io/api/3dskin/Dream)
+console.log(url);  // https://abcsnoobmcname.42web.io/api/3dskin/Dream
 ```
 ---
 
@@ -132,7 +132,7 @@ console.log(url);  // [https://abcsnoobmcname.42web.io/api/3dskin/Dream](https:/
   * `height` (tùy chọn): chiều cao iframe (mặc định 440)
 * Cách dùng:
 ```Javascript
-import { embedSkin3D } from "[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js)";
+import { embedSkin3D } from "https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js";
 
 embedSkin3D("Dream", "skinContainer", 320, 440);
 ```

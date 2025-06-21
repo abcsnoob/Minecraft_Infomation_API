@@ -63,6 +63,94 @@ fetch('https://abcsnoobmcname.42web.io/api/Dream')
   })
   .catch(error => console.error('Lỗi:', error));
 ```
+## Còn thư viện JS thì sao
+Tin vui là: có hỗ trợ thư viện
+URL CDN:
+[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js)
+
+
+---
+
+# Hướng Dẫn Sử Dụng abcsnoobmcnamelib.min.js
+
+
+
+---
+
+Các hàm chính:
+
+1. `getMinecraftUserData(username)`
+
+* Mục đích: Lấy thông tin người chơi Minecraft Java Edition theo username.
+* Trả về: Promise trả về object chứa:
+```json
+  {
+  "name": "Tên người chơi",
+  "uuid": "UUID",
+  "skin": "URL skin",
+  "cape": "URL cape hoặc null",
+  "skin3d": "URL skin 3D embed"
+  }
+```
+* Cách dùng:
+```javascript
+import { getMinecraftUserData } from "[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js)";
+
+getMinecraftUserData("Dream").then(data => {
+console.log("Tên:", data.name);
+console.log("UUID:", data.uuid);
+console.log("Skin URL:", data.skin);
+console.log("Cape URL:", data.cape);
+console.log("Skin 3D URL:", data.skin3d);
+}).catch(err => {
+console.error("Lỗi khi lấy dữ liệu:", err);
+});
+```
+---
+
+2. `getSkin3DUrl(username)`
+
+* Mục đích: Lấy URL embed skin 3D (dạng iframe) cho username.
+* Trả về: URL string
+* Cách dùng:
+```Javascript
+import { getSkin3DUrl } from "[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js)";
+
+const url = getSkin3DUrl("Dream");
+console.log(url);  // [https://abcsnoobmcname.42web.io/api/3dskin/Dream](https://abcsnoobmcname.42web.io/api/3dskin/Dream)
+```
+---
+
+3. embedSkin3D(username, elementId, width=320, height=440)
+
+* Mục đích: Tạo iframe và nhúng skin 3D vào phần tử HTML có id = `elementId`
+* Tham số:
+
+  * `username`: tên người chơi
+  * `elementId`: id của phần tử div hoặc container HTML
+  * `width` (tùy chọn): chiều rộng iframe (mặc định 320)
+  * `height` (tùy chọn): chiều cao iframe (mặc định 440)
+* Cách dùng:
+```Javascript
+import { embedSkin3D } from "[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsnoobmcnamelib.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsnoobmcnamelib.min.js)";
+
+embedSkin3D("Dream", "skinContainer", 320, 440);
+```
+---
+
+*Lưu ý:*
+
+* Thư viện chạy trên trình duyệt hỗ trợ ES modules.
+* Các hàm đều sẽ ném lỗi nếu `username` không hợp lệ hoặc phần tử không tìm thấy.
+* URL skin3d trả về có dạng [https://abcsnoobmcname.42web.io/api/3dskin/{username}](https://abcsnoobmcname.42web.io/api/3dskin/{username})
+
+---
+
+Bạn chỉ cần chèn thẻ script `type="module"` trong HTML hoặc dùng bundler phù hợp để import thư viện.
+
+---
+
+
 ## Liên hệ
 
 - Tác giả: Abc’s Noob  

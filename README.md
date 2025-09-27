@@ -47,7 +47,7 @@ Hoặc:
 GET https://abcsmc.42web.io/3dskin/<tên-người-chơi>
 ```
 Ví dụ:
-```http
+```url
 https://abcsmc.42web.io/3dskin?username=Dream
 ```
 ## Ví dụ tích hợp trong JavaScript (Fetch API)

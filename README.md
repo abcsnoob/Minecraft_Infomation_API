@@ -22,11 +22,11 @@ API cung cấp dữ liệu về:
 
 ### 1. Tra cứu thông tin người chơi
 ```http
-GET https://abcsnoobmcname.42web.io/api/<tên-người-chơi>
+GET https://abcsmc.42web.io/<tên-người-chơi>
 ```
 Ví dụ:
 ```url
-GET https://abcsnoobmcname.42web.io/api/Dream
+GET https://abcsmc.42web.io/Dream
 ```
 Kết quả trả về:
 ```json
@@ -35,24 +35,24 @@ Kết quả trả về:
   "uuid": "ec70bcaf702f4bb8b48d276fa52a780c",
   "skin": "http://textures.minecraft.net/texture/ca93f6fc40488f1877cda94a830b54e9f6f54ab58a5453bad5c947726dd1f473",
   "cape": null,
-  "skin3d": "https://abcsnoobmcname.42web.io/api/3dskin/Dream"
+  "skin3d": "abcsmc.42web.io/3dskin/Dream"
 }
 ```
 ### 2. Hiển thị skin 3D dạng embed
 ```http
-GET https://abcsnoobmcname.42web.io/api/3dskin?username=<tên-người-chơi>
+GET https://abcsmc.42web.io/api/3dskin?username=<tên-người-chơi>
 ```
 Hoặc:
 ```http
-GET https://abcsnoobmcname.42web.io/api/3dskin/<tên-người-chơi>
+GET https://abcsmc.42web.io/3dskin/<tên-người-chơi>
 ```
 Ví dụ:
 ```http
-https://abcsnoobmcname.42web.io/api/3dskin?username=Dream
+https://abcsmc.42web.io/3dskin?username=Dream
 ```
 ## Ví dụ tích hợp trong JavaScript (Fetch API)
 ```
-fetch('https://abcsnoobmcname.42web.io/api/Dream')
+fetch('https://abcsmc.42web.io/Dream')
   .then(response => response.json())
   .then(data => {
     console.log('Tên:', data.name);
@@ -117,7 +117,7 @@ console.error("Lỗi khi lấy dữ liệu:", err);
 import { getSkin3DUrl } from "https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmcname.min.js";
 
 const url = getSkin3DUrl("Dream");
-console.log(url);  // https://abcsnoobmcname.42web.io/api/3dskin/Dream
+console.log(url);  // https://abcsmc.42web.io/api/3dskin/Dream
 ```
 ---
 
@@ -142,7 +142,7 @@ embedSkin3D("Dream", "skinContainer", 320, 440);
 
 * Thư viện chạy trên trình duyệt hỗ trợ ES modules.
 * Các hàm đều sẽ ném lỗi nếu `username` không hợp lệ hoặc phần tử không tìm thấy.
-* URL skin3d trả về có dạng [https://abcsnoobmcname.42web.io/api/3dskin/{username}](https://abcsnoobmcname.42web.io/api/3dskin/{username})
+* URL skin3d trả về có dạng [https://abcsmc.42web.io/3dskin/{username}](https://abcsmc.42web.io/3dskin/{username})
 
 ---
 
@@ -154,7 +154,7 @@ Bạn chỉ cần chèn thẻ script `type="module"` trong HTML hoặc dùng bun
 ## Liên hệ
 
 - Tác giả: Abc’s Noob  
-- Trang chủ API: [https://abcsnoobmcname.42web.io/api/](https://abcsnoobmcname.42web.io/api/)
+- Trang chủ API: [https://abcsmc.42web.io/](https://abcsmc.42web.io/)
 - Fanmade API – không thuộc Mojang/Microsoft.  
 - Mojang mà chưa làm API dễ dùng thì... mình làm 😎
 

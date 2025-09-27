@@ -25,7 +25,7 @@ API cung cấp dữ liệu về:
 GET https://abcsmc.42web.io/<tên-người-chơi>
 ```
 Ví dụ:
-```url
+```http
 GET https://abcsmc.42web.io/Dream
 ```
 Kết quả trả về:

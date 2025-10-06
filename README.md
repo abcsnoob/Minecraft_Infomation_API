@@ -66,7 +66,7 @@ fetch('https://abcsmc.42web.io/Dream')
 ## Còn thư viện JS thì sao
 Tin vui là: có hỗ trợ thư viện
 URL CDN:
-[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsmcname.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmcname.min.js)
+[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft\_Infomation\_API@main/dist/abcsmc.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js)
 
 
 ---

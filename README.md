@@ -11,6 +11,13 @@ API cung cấp dữ liệu về:
 - Cape (áo choàng nếu có)
 - Skin 3D dạng embed để tích hợp trực quan
 
+Mục lục:
+-[Tính năng chính](#Tính-năng-chính)
+-[Cách dùng](#Cách-sử-dụng)
+-[Ví dụ cho JS](#Ví-dụ-tích-hợp-trong-JavaScript-(Fetch-API))
+-[API kiểu thư viện](#Còn-thư-viện-JS-thì-sao)
+-[Biện pháp bảo mật](#Biện-pháp-bảo-mật)
+
 ## Tính năng chính
 
 - Tra cứu thông tin người chơi Minecraft theo username
@@ -152,7 +159,14 @@ Bạn chỉ cần chèn thẻ script `type="module"` trong HTML hoặc dùng bun
 
 ---
 
+## Biện pháp bảo mật
+* Khuyến khích sử dụng **HTTPS** để kết nối tới server
+* Server của chúng tôi sử dụng **HTTPS**
+* Chúng tôi dùng [IFastNet](https://abcsnoob.github.io/redirect?url=https://ifastnet.com/) đảm bảo bảo mật
 
+## Trạng thái:
+Gần như luôn ổn định
+Trừ khi server IFASTNET có sự cố thôi :)
 ## Liên hệ
 
 - Tác giả: Abc’s Noob  

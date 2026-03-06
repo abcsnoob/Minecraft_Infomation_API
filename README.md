@@ -1,203 +1,95 @@
 
-# ABCSNoobMC Skin Viewer
+# Abc's NoobMC Skin Viewer
 
-**ABCSNoobMC Skin Viewer** là một thư viện JavaScript nhỏ gọn giúp bạn **tìm kiếm và hiển thị Minecraft Skin của người chơi** trực tiếp trên website.
+A lightweight JavaScript library to search and display Minecraft player skins directly on your website.
 
-Thư viện cung cấp:
-- 🔎 Tìm kiếm username Minecraft
-- 🧍 Hiển thị **3D Skin Viewer**
-- 🧥 Hỗ trợ **Cape**
-- ⬇️ Tải Skin / Cape
-- 📋 Copy lệnh `curl` để gọi API
-- ⚡ Loading progress và alert đẹp với **NProgress** và **SweetAlert2**
+## Features
 
----
+- Search Minecraft username
+- 3D skin viewer
+- Cape support
+- Download skin / cape
+- Copy curl API command
+- Beautiful alerts and loading
 
-## Demo
+## Installation
 
-Giao diện bao gồm:
-
-- Input nhập username
-- Nút tìm kiếm
-- Viewer 3D skin
-- Thông tin player (name + UUID)
-- Các nút hành động
-
----
-
-## Cài đặt
-
-Chỉ cần import file JS vào website của bạn.
+Include the script:
 
 ```html
-<script src="abcsmc.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
 ````
 
-Sau đó tạo container:
+Create container:
 
 ```html
 <div id="abcsmc"></div>
 ```
 
----
-
-## Khởi tạo
+Initialize:
 
 ```javascript
 abcsnoobmc.init()
 ```
 
-Hoặc custom cấu hình:
+## Demo
 
-```javascript
-abcsnoobmc.init({
-  containerId: "abcsmc",
-  apiUrl: "https://mcskin.abcsnoob.workers.dev/api/"
-})
+Open:
+
+```
+demo/index.html
 ```
 
----
+## API
 
-## Ví dụ hoàn chỉnh
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Minecraft Skin Viewer</title>
-</head>
-<body>
-
-<div id="abcsmc"></div>
-
-<script src="abcsmc.js"></script>
-<script>
-  abcsnoobmc.init();
-</script>
-
-</body>
-</html>
+```
+https://mcskin.abcsnoob.workers.dev/api/<username>
 ```
 
----
-
-## API Response
-
-API trả về JSON dạng:
+Example response:
 
 ```json
 {
   "name": "Notch",
   "uuid": "069a79f444e94726a5befca90e38aaf5",
-  "skin": "https://...",
-  "cape": "https://...",
-  "skin3d": "https://..."
+  "skin": "...",
+  "cape": "...",
+  "skin3d": "..."
 }
 ```
 
----
-
-## Tính năng
-
-### Tìm kiếm player
-
-Người dùng nhập username Minecraft để tìm skin.
-
-### 3D Skin Viewer
-
-Skin được hiển thị bằng iframe viewer 3D.
-
-### Tải Skin / Cape
-
-Có các nút:
-
-* Download Skin
-* Download Cape
-* View Cape
-
-### Copy CURL
-
-Có thể sao chép nhanh lệnh:
-
-```bash
-curl "https://mcskin.abcsnoob.workers.dev/api/<username>"
-```
-
----
-
-## Dependencies (Auto Load)
-
-Thư viện tự động tải:
-
-* NProgress
-* SweetAlert2
-
-CDN:
-
-```
-https://cdnjs.cloudflare.com/ajax/libs/nprogress
-https://cdn.jsdelivr.net/npm/sweetalert2
-```
-
-Bạn **không cần cài đặt thủ công**.
-
----
-
-## Cấu trúc
-
-Thư viện export một object:
-
-```javascript
-abcsnoobmc
-```
-
-### Methods
-
-#### `init(options)`
-
-Khởi tạo UI.
-
-| Option      | Type   | Default      |
-| ----------- | ------ | ------------ |
-| containerId | string | `abcsmc`     |
-| apiUrl      | string | API mặc định |
-
----
-
-#### `render(username)`
-
-Render dữ liệu player.
-
-```javascript
-abcsnoobmc.render("Notch")
-```
-
----
-
-## Yêu cầu
-
-* Trình duyệt hỗ trợ **ES6**
-* Fetch API
-* Clipboard API
-
----
-
 ## License
 
-MIT License
+MIT
+
+````
 
 ---
 
-## Author
+# 3️⃣ demo/index.html
 
-**ABCSNoob**
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ABCSNoobMC Skin Viewer Demo</title>
+</head>
 
-API:
+<body>
 
-```
-https://mcskin.abcsnoob.workers.dev
-```
- 
+<h2>Minecraft Skin Viewer Demo</h2>
 
-để project nhìn **xịn như library thật**.
-```
+<div id="abcsmc"></div>
+
+<script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
+
+<script>
+abcsnoobmc.init({
+  containerId: "abcsmc",
+  apiUrl: "https://mcskin.abcsnoob.workers.dev/api/"
+});
+</script>
+
+</body>
+</html>

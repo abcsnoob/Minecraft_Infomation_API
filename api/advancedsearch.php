@@ -1,4 +1,4 @@
-
+// deprecated files
 <?php
 // Chuyển hướng vĩnh viễn từ advancedsearch.php sang /api/
 $request_uri = $_SERVER['REQUEST_URI'];

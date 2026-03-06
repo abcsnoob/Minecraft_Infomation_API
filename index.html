@@ -23,9 +23,7 @@
     <h2>Try It Yourself</h2>
     <div class="box">
 
-        <button class="btn-try" onclick="loadSkin()">Start</button>
-        
-        <div id="abcsmc" style="margin-top: 20px;"></div>
+    <div id="abcsmc"></div>
     </div>
 
     <h2>Tính năng chính</h2>
@@ -49,20 +47,21 @@
     <script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
     
     <script>
-        function loadSkin() {
-            const user = document.getElementById('username').value;
-            if(user) {
-                // Xóa nội dung cũ để load skin mới
-                document.getElementById('abcsmc').innerHTML = "";
-                // Gọi khởi tạo với username mới
-                abcsnoobmc.init({
-                    containerId: "abcsmc",
-                    username: user
-                });
-            } else {
-                alert("Vui lòng nhập tên người chơi!");
+        // Khởi tạo thư viện
+        abcsnoobmc.init({
+            containerId: 'abcsmc', // ID của thẻ div bên trên
+            useCache: true         // Bật bộ nhớ đệm
+        });
+
+        // Tùy chọn: Nhấn phím Enter để tìm kiếm
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const input = document.getElementById('abcsmc-input');
+                if (input && input.value) {
+                    abcsnoobmc.render(input.value);
+                }
             }
-        }
+        });
     </script>
 </body>
 </html>

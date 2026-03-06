@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Abc's NoobMC Skin Viewer - Thư viện API hiển thị Minecraft Skin</title>
-    <meta name="description" content="Thư viện JavaScript nhẹ giúp tích hợp tính năng tìm kiếm và hiển thị skin Minecraft 3D trực tiếp trên website của bạn. Hỗ trợ Cape và tải xuống dễ dàng.">
-    <meta name="keywords" content="Minecraft skin viewer, Minecraft API, JavaScript library, NoobMC, Minecraft skin 3D, hiển thị skin Minecraft">
-    <meta name="author" content="Abc's NoobMC">
+    <meta name="description" content="Tích hợp trình xem skin Minecraft 3D vào website nhanh chóng. Hỗ trợ hiển thị Cape, tải skin và API dữ liệu người chơi trực tiếp.">
+    <meta name="keywords" content="Minecraft skin viewer, Minecraft API, JavaScript library, NoobMC, hiển thị skin Minecraft 3D, lấy dữ liệu Minecraft">
     
-    <meta property="og:title" content="Abc's NoobMC Skin Viewer - Tài liệu API">
-    <meta property="og:description" content="Tích hợp trình xem skin Minecraft 3D vào website chỉ với vài dòng code JavaScript.">
+    <meta property="og:title" content="Abc's NoobMC Skin Viewer API">
+    <meta property="og:description" content="Thư viện JS nhẹ để hiển thị skin Minecraft 3D và dữ liệu người chơi.">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="vi_VN">
 
     <script type="application/ld+json">
     {
@@ -21,18 +19,16 @@
       "name": "Abc's NoobMC Skin Viewer",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Web",
-      "description": "Thư viện JavaScript giúp hiển thị và tìm kiếm skin Minecraft 3D."
+      "description": "Thư viện JS giúp tích hợp xem skin Minecraft 3D và truy vấn dữ liệu API."
     }
     </script>
+
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
         code { background: #f4f4f4; padding: 2px 5px; border-radius: 4px; color: #d63384; font-family: monospace; }
         pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; }
         .box { border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-top: 20px; background: #fafafa; }
         h1, h2 { color: #2c3e50; }
-        .btn-try { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .btn-try:hover { background: #0056b3; }
-        input[type="text"] { padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -42,38 +38,35 @@
 
     <h2>Try It Yourself</h2>
     <div class="box">
-
-    <div id="abcsmc"></div>
+        <div id="abcsmc"></div>
     </div>
 
-    <h2>Tính năng chính</h2>
-    <ul>
-        <li>Tìm kiếm tên người chơi Minecraft</li>
-        <li>Trình xem skin 3D</li>
-        <li>Hỗ trợ Cape và tải xuống</li>
-        <li>Sao chép lệnh cURL</li>
-    </ul>
+    <h2>Cách hiển thị Cape trong 3D Viewer</h2>
+    <p>Để trình xem 3D hiển thị kèm Cape, bạn cần nối thêm tham số <code>?cape=true</code> vào URL thuộc tính <code>skin3d</code> nhận được từ API.</p>
+    
+    
 
-    <h2>Cài đặt</h2>
-    <p>Nhúng script vào dự án:</p>
-    <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"&gt;&lt;/script&gt;</code></pre>
+    <pre><code>// Ví dụ cách render iframe 3D với Cape
+const skin3dUrl = data.skin3d + (data.skin3d.includes('?') ? '&' : '?') + 'cape=true';
+iframe.src = skin3dUrl;</code></pre>
 
-    <p>Tạo container và khởi tạo:</p>
-    <pre><code>&lt;div id="abcsmc"&gt;&lt;/div&gt;
-&lt;script&gt;
-  abcsnoobmc.init({ containerId: "abcsmc" });
-&lt;/script&gt;</code></pre>
+    <h2>Tích hợp qua Fetch API</h2>
+    <pre><code>async function getMinecraftInfo(username) {
+    const url = `https://mcskin.abcsnoob.workers.dev/api/${username}?newinfo=true&cape=true`;
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    // Sử dụng data.skin3d + "?cape=true" để hiển thị kèm Cape
+    console.log("Skin 3D với Cape:", `${data.skin3d}?cape=true`);
+}</code></pre>
 
     <script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
-    
     <script>
-        // Khởi tạo thư viện
         abcsnoobmc.init({
-            containerId: 'abcsmc', // ID của thẻ div bên trên
-            useCache: true         // Bật bộ nhớ đệm
+            containerId: 'abcsmc',
+            useCache: true
         });
 
-        // Tùy chọn: Nhấn phím Enter để tìm kiếm
         document.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 const input = document.getElementById('abcsmc-input');

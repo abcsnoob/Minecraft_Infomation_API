@@ -1,92 +1,47 @@
-
 # Abc's NoobMC Skin Viewer
 
-A lightweight JavaScript library to search and display Minecraft player skins directly on your website.
+Thư viện JavaScript nhẹ giúp tìm kiếm và hiển thị skin Minecraft 3D trực tiếp trên website của bạn.
 
-## Features
+## Tính năng
+- Tìm kiếm tên người chơi Minecraft nhanh chóng.
+- Trình xem skin 3D tùy chỉnh.
+- Hỗ trợ hiển thị và tải xuống Cape.
+- Sao chép lệnh cURL API chỉ với một cú nhấp.
+- Tích hợp sẵn thông báo (SweetAlert2) và hiệu ứng tải trang (NProgress).
 
-- Search Minecraft username
-- 3D skin viewer
-- Cape support
-- Download skin / cape
-- Copy curl API command
-- Beautiful alerts and loading
-
-## Installation
-
-Include the script:
-
+## Cài đặt
+Nhúng script vào dự án của bạn:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
-````
+<script src="[https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js](https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js)"></script>
 
-Create container:
+```
+
+Tạo container để hiển thị:
 
 ```html
 <div id="abcsmc"></div>
+
 ```
 
-Initialize:
+Khởi tạo thư viện:
 
 ```javascript
-abcsnoobmc.init()
-```
-
-## Demo
-
-Open:
+abcsnoobmc.init({
+  containerId: "abcsmc",
+  useCache: true
+});
 
 ```
-demo/index.html
-```
 
-## API
+## API Endpoint
 
-```
-https://mcskin.abcsnoob.workers.dev/api/<username>
-```
+Sử dụng trực tiếp nếu không muốn dùng UI có sẵn:
+`https://mcskin.abcsnoob.workers.dev/api/<username>?newinfo=true&cape=true`
 
-Example response:
-
-```json
-{
-  "name": "Notch",
-  "uuid": "069a79f444e94726a5befca90e38aaf5",
-  "skin": "...",
-  "cape": "...",
-  "skin3d": "..."
-}
-```
+**Lưu ý khi render 3D Skin:**
+Để hiển thị kèm Cape trong iframe 3D, hãy thêm tham số `?cape=true` vào sau URL `skin3d` nhận được từ API:
+`const viewerUrl = data.skin3d + (data.skin3d.includes('?') ? '&' : '?') + 'cape=true';`
 
 ## License
 
 MIT
-
-
----
-```html
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>ABCSNoobMC Skin Viewer Demo</title>
-</head>
-
-<body>
-
-<h2>Minecraft Skin Viewer Demo</h2>
-
-<div id="abcsmc"></div>
-
-<script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
-
-<script>
-abcsnoobmc.init({
-  containerId: "abcsmc",
-  apiUrl: "https://mcskin.abcsnoob.workers.dev/api/"
-});
-</script>
-
-</body>
-</html>
-```

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abc's NoobMC Skin Viewer - Tài liệu API</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 4px; color: #d63384; font-family: monospace; }
+        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        .box { border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-top: 20px; background: #fafafa; }
+        h1, h2 { color: #2c3e50; }
+        .btn-try { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-try:hover { background: #0056b3; }
+        input[type="text"] { padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Abc's NoobMC Skin Viewer</h1>
+    <p>Một thư viện JavaScript nhẹ giúp tìm kiếm và hiển thị skin Minecraft trực tiếp trên website của bạn.</p>
+
+    <h2>Try It Yourself</h2>
+    <div class="box">
+        <label for="username">Nhập tên người chơi:</label><br><br>
+        <input type="text" id="username" placeholder="Ví dụ: Notch">
+        <button class="btn-try" onclick="loadSkin()">Xem ngay</button>
+        
+        <div id="abcsmc" style="margin-top: 20px;"></div>
+    </div>
+
+    <h2>Tính năng chính</h2>
+    <ul>
+        <li>Tìm kiếm tên người chơi Minecraft</li>
+        <li>Trình xem skin 3D</li>
+        <li>Hỗ trợ Cape và tải xuống</li>
+        <li>Sao chép lệnh cURL</li>
+    </ul>
+
+    <h2>Cài đặt</h2>
+    <p>Nhúng script vào dự án:</p>
+    <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"&gt;&lt;/script&gt;</code></pre>
+
+    <p>Tạo container và khởi tạo:</p>
+    <pre><code>&lt;div id="abcsmc"&gt;&lt;/div&gt;
+&lt;script&gt;
+  abcsnoobmc.init({ containerId: "abcsmc" });
+&lt;/script&gt;</code></pre>
+
+    <script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
+    
+    <script>
+        function loadSkin() {
+            const user = document.getElementById('username').value;
+            if(user) {
+                // Xóa nội dung cũ để load skin mới
+                document.getElementById('abcsmc').innerHTML = "";
+                // Gọi khởi tạo với username mới
+                abcsnoobmc.init({
+                    containerId: "abcsmc",
+                    username: user
+                });
+            } else {
+                alert("Vui lòng nhập tên người chơi!");
+            }
+        }
+    </script>
+</body>
+</html>

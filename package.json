@@ -1,0 +1,21 @@
+{
+  "name": "abcsnoobmc-skin-viewer",
+  "version": "1.0.0",
+  "description": "Lightweight Minecraft Skin Viewer library with 3D preview",
+  "main": "dist/abcsmc.min.js",
+  "type": "module",
+  "keywords": [
+    "minecraft",
+    "minecraft-skin",
+    "minecraft-api",
+    "skin-viewer",
+    "3d-viewer"
+  ],
+  "author": "Abc's Noob",
+  "license": "MIT",
+  "homepage": "https://github.com/abcsnoob/Minecraft_Infomation_API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abcsnoob/Minecraft_Infomation_API.git"
+  }
+}

@@ -3,78 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài liệu Abc's NoobMC Skin Viewer | API Minecraft 3D cho Website</title>
+    <meta name="description" content="Hướng dẫn toàn diện tích hợp Abc's NoobMC Skin Viewer. API JavaScript nhẹ, hỗ trợ render 3D Skin, Cape Minecraft và tùy biến dữ liệu người chơi.">
+    <meta name="keywords" content="Minecraft skin viewer, Minecraft API, JavaScript, Web Development, NoobMC, render skin 3D, lấy dữ liệu Minecraft">
+    <link rel="canonical" href="https://abcsnoob.github.io/Minecraft_Infomation_API/">
     
-    <title>Abc's NoobMC Skin Viewer - Thư viện API hiển thị Minecraft Skin</title>
-    <meta name="description" content="Tích hợp trình xem skin Minecraft 3D vào website nhanh chóng. Hỗ trợ hiển thị Cape, tải skin và API dữ liệu người chơi trực tiếp.">
-    <meta name="keywords" content="Minecraft skin viewer, Minecraft API, JavaScript library, NoobMC, hiển thị skin Minecraft 3D, lấy dữ liệu Minecraft">
-    
-    <meta property="og:title" content="Abc's NoobMC Skin Viewer API">
-    <meta property="og:description" content="Thư viện JS nhẹ để hiển thị skin Minecraft 3D và dữ liệu người chơi.">
-    <meta property="og:type" content="website">
-
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Abc's NoobMC Skin Viewer",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Web",
-      "description": "Thư viện JS giúp tích hợp xem skin Minecraft 3D và truy vấn dữ liệu API."
+      "@type": "TechArticle",
+      "headline": "Hướng dẫn sử dụng Abc's NoobMC Skin Viewer",
+      "description": "Tài liệu kỹ thuật về thư viện hiển thị skin Minecraft 3D.",
+      "author": { "@type": "Person", "name": "Abc's NoobMC" }
     }
     </script>
 
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 4px; color: #d63384; font-family: monospace; }
-        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; }
-        .box { border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-top: 20px; background: #fafafa; }
-        h1, h2 { color: #2c3e50; }
+        /* CSS phong cách Documentation chuyên nghiệp */
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 20px; color: #374151; }
+        nav { border-bottom: 1px solid #e5e7eb; margin-bottom: 30px; }
+        .sidebar { float: left; width: 200px; }
+        .content { margin-left: 220px; }
+        pre { background: #1e1e1e; color: #dcdcdc; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Consolas', monospace; }
+        h1, h2, h3 { color: #111827; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; }
+        .try-box { background: #f9fafb; border: 1px solid #e5e7eb; padding: 25px; border-radius: 12px; }
     </style>
 </head>
 <body>
 
-    <h1>Abc's NoobMC Skin Viewer</h1>
-    <p>Một thư viện JavaScript nhẹ giúp tìm kiếm và hiển thị skin Minecraft trực tiếp trên website của bạn.</p>
+<nav><h1>Abc's NoobMC Documentation</h1></nav>
 
-    <h2>Try It Yourself</h2>
-    <div class="box">
-        <div id="abcsmc"></div>
-    </div>
+<div class="sidebar">
+    <ul>
+        <li><a href="#intro">Giới thiệu</a></li>
+        <li><a href="#install">Cài đặt</a></li>
+        <li><a href="#api">Sử dụng API</a></li>
+        <li><a href="#render">Render 3D & Cape</a></li>
+    </ul>
+</div>
 
-    <h2>Cách hiển thị Cape trong 3D Viewer</h2>
-    <p>Để trình xem 3D hiển thị kèm Cape, bạn cần nối thêm tham số <code>?cape=true</code> vào URL thuộc tính <code>skin3d</code> nhận được từ API.</p>
-    
-    
+<div class="content">
+    <section id="intro">
+        <h2>1. Giới thiệu</h2>
+        <p>Abc's NoobMC Skin Viewer là giải pháp tối ưu cho việc hiển thị skin người chơi Minecraft...</p>
+        
+    </section>
 
-    <pre><code>// Ví dụ cách render iframe 3D với Cape
-const skin3dUrl = data.skin3d + (data.skin3d.includes('?') ? '&' : '?') + 'cape=true';
-iframe.src = skin3dUrl;</code></pre>
+    <section id="install">
+        <h2>2. Cài đặt thư viện</h2>
+        <p>Thư viện được phân phối qua CDN, không cần cài đặt phức tạp.</p>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"&gt;&lt;/script&gt;</code></pre>
+    </section>
 
-    <h2>Tích hợp qua Fetch API</h2>
-    <pre><code>async function getMinecraftInfo(username) {
-    const url = `https://mcskin.abcsnoob.workers.dev/api/${username}?newinfo=true&cape=true`;
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    // Sử dụng data.skin3d + "?cape=true" để hiển thị kèm Cape
-    console.log("Skin 3D với Cape:", `${data.skin3d}?cape=true`);
+    <section id="api">
+        <h2>3. Sử dụng Fetch API (Advanced)</h2>
+        <p>Nếu bạn cần tùy biến logic xử lý dữ liệu sâu hơn, hãy sử dụng Fetch:</p>
+        
+        <pre><code>// Hàm lấy dữ liệu chi tiết
+async function fetchPlayerData(username) {
+    const endpoint = `https://mcskin.abcsnoob.workers.dev/api/${username}?newinfo=true&cape=true`;
+    const response = await fetch(endpoint);
+    return await response.json();
 }</code></pre>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
-    <script>
-        abcsnoobmc.init({
-            containerId: 'abcsmc',
-            useCache: true
-        });
+    <section id="render">
+        <h2>4. Xử lý Cape trong Viewer 3D</h2>
+        <p>Để đảm bảo Cape hiển thị chính xác, bạn cần kiểm tra query string...</p>
+        <pre><code>const viewerUrl = data.skin3d + (data.skin3d.includes('?') ? '&' : '?') + 'cape=true';</code></pre>
+    </section>
 
-        document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                const input = document.getElementById('abcsmc-input');
-                if (input && input.value) {
-                    abcsnoobmc.render(input.value);
-                }
-            }
-        });
-    </script>
+    <section class="try-box">
+        <h2>Try It Yourself</h2>
+        <div id="abcsmc"></div>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/abcsnoob/Minecraft_Infomation_API@main/dist/abcsmc.min.js"></script>
+<script>abcsnoobmc.init({ containerId: "abcsmc" });</script>
+
 </body>
 </html>

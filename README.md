@@ -62,12 +62,8 @@ Example response:
 
 MIT
 
-````
 
 ---
-
-# 3️⃣ demo/index.html
-
 ```html
 <!DOCTYPE html>
 <html>
@@ -93,3 +89,4 @@ abcsnoobmc.init({
 
 </body>
 </html>
+```

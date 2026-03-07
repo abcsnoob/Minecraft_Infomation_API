@@ -7,10 +7,21 @@ export default {
     const newinfo = url.searchParams.get("newinfo") === "true"
     const showCape = url.searchParams.get("cape") === "true"
 
-    if (!path.startsWith("/api")) {
-      return Response.redirect(url.origin + "/api/", 301)
-    }
-
+if (!path.startsWith("/api") && path !== "/favicon.ico") {
+    // Chuyển hướng với 302 để tránh trình duyệt lưu cache vĩnh viễn (301)
+    return Response.redirect(url.origin + "/api/", 302);
+}
+    if (path === "/favicon.ico") {
+  const referer = request.headers.get("Referer") || "";
+  
+  // Trích xuất username từ URL Referer (Ví dụ: .../api/3dskin/Dream)
+  // Nếu người dùng đang xem trang 3D Skin hoặc trang API JSON
+  const match = referer.match(/\/api\/(?:3dskin\/)?([^/?#]+)/);
+  const username = match ? match[1] : "Steve"; // Mặc định là Steve nếu không xác định được
+  
+  // Chuyển hướng đến ảnh đầu của user đó (Minotar)
+  return Response.redirect(`https://minotar.net/helm/${encodeURIComponent(username)}/100`, 302);
+}
     const parts = path.replace(/^\/+|\/+$/g, "").split("/")
 
     // ======================
@@ -185,7 +196,7 @@ function showDocs(origin) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your name | API Documentation</title>
+    <title>Abc’s Noob | API Documentation</title>
     <style>
         :root { --primary: #58a6ff; --bg: #0d1117; --card: #161b22; --text: #c9d1d9; --accent: #238636; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; line-height: 1.6; }
@@ -200,7 +211,7 @@ function showDocs(origin) {
 </head>
 <body>
     <div class="container">
-        <h1>🎮 Your name Minecraft API</h1>
+        <h1>🎮 Abc’s Noob Minecraft API</h1>
         
         
 
@@ -266,23 +277,20 @@ function showDocs(origin) {
 
 
 // ======================
-// 3D SKIN VIEW PAGE
+// 3D SKIN VIEW PAGE (ĐÃ CẬP NHẬT)
 // ======================
-
 function skin3DPage(user, showCape=false) {
+  // Cơ chế Fallback: Nếu không có user.head, tự tạo từ uuid
+  const favicon = user.head || `https://minotar.net/helm/${user.uuid}/100`;
 
-return `
-
+  return `
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Skin 3D của ${user.name}</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skin 3D: ${user.name || "Người chơi"}</title>
+  <link rel="icon" href="${favicon}" type="image/png">
 <style>
 
 *{
@@ -362,55 +370,44 @@ border-radius:50%;
 
 <div id="skin_container"></div>
 
-<p>Made with ❤️ by <a href="https://abcsnoob.github.io">Abc's Noob</a>and<p>your name</p></p>
+<p>Made with ❤️ by <a href="https://abcsnoob.github.io">Abc's Noob</a></p>
 
 <script>
+    // Bắt đầu hiệu ứng loading
+    NProgress.start();
 
-NProgress.start()
+    const viewer = new skinview3d.SkinViewer({
+      canvas: document.createElement("canvas"),
+      width: 360,
+      height: 480
+    });
+    document.getElementById("skin_container").appendChild(viewer.canvas);
+    
+    // Tạo mảng các promise để theo dõi tiến trình tải
+    const loadPromises = [viewer.loadSkin("${user.skin}")];
+    
+    ${showCape && user.cape ? `loadPromises.push(viewer.loadCape("${user.cape}"))` : ""}
 
-const container = document.getElementById("skin_container")
+    Promise.all(loadPromises).then(() => {
+      // Kết thúc hiệu ứng loading khi tất cả đã tải xong
+      NProgress.done();
+      
+      const username = "${user.name}".toLowerCase();
+      viewer.playerObject.rotation.y = Math.PI / 2;
 
-const canvas = document.createElement("canvas")
-container.appendChild(canvas)
+      // Logic xoay Dinnerbone
+      if (username === "dinnerbone" || username === "grumm") {
+        viewer.playerObject.rotation.z = Math.PI;
+        viewer.playerObject.position.y = 2; 
+        viewer.playerObject.rotation.y = -Math.PI / 40;
+      }
+    }).catch(() => {
+      // Kết thúc loading nếu có lỗi xảy ra
+      NProgress.done();
+    });
 
-function getSize(){
-return {
-width: container.clientWidth,
-height: container.clientHeight
-}
-}
-
-const size = getSize()
-
-const viewer = new skinview3d.SkinViewer({
-canvas: canvas,
-width: size.width,
-height: size.height
-})
-
-viewer.loadSkin("${user.skin}").then(()=>{
-
-${showCape && user.cape ? `viewer.loadCape("${user.cape}")` : ""}
-
-NProgress.done()
-
-}).catch(()=>{
-NProgress.done()
-})
-
-viewer.controls.enableZoom = true
-viewer.animation = new skinview3d.WalkingAnimation()
-viewer.animation.speed = 1
-
-function resize(){
-const size = getSize()
-viewer.setSize(size.width, size.height)
-}
-
-window.addEventListener("resize", resize)
-
+    viewer.animation = new skinview3d.WalkingAnimation();
 </script>
-
 </body>
 
 </html>

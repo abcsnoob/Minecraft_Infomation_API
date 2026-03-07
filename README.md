@@ -35,13 +35,8 @@ abcsnoobmc.init({
 
 ## API Endpoint
 
-Sử dụng trực tiếp nếu không muốn dùng UI có sẵn:
-`https://mcskin.abcsnoob.workers.dev/api/<username>?newinfo=true&cape=true`
-
-**Lưu ý khi render 3D Skin:**
-Để hiển thị kèm Cape trong iframe 3D, hãy thêm tham số `?cape=true` vào sau URL `skin3d` nhận được từ API:
-`const viewerUrl = data.skin3d + (data.skin3d.includes('?') ? '&' : '?') + 'cape=true';`
-
+Đây:
+[https://mcskin.abcsnoob.workers.dev/api/](https://mcskin.abcsnoob.workers.dev/api/)
 ## License
 
 MIT

@@ -103,92 +103,72 @@ function corsHTML() {
 // GET USER DATA + CACHE
 // ======================
 
-async function getUserData(username, origin, ctx, newinfo=false) {
+async function getUserData(username, origin, ctx, newinfo = false) {
+  const cache = caches.default;
+  const cacheKey = new Request("https://mcskin-cache/" + username.toLowerCase());
 
-  const cache = caches.default
-  const cacheKey = new Request("https://mcskin-cache/" + username.toLowerCase())
-
-  const cached = await cache.match(cacheKey)
-
-  if (cached) {
-    return await cached.json()
+  // CHỈ LẤY TỪ CACHE NẾU KHÔNG YÊU CẦU LẤY THÔNG TIN MỚI (newinfo=false)
+  if (!newinfo) {
+    const cached = await cache.match(cacheKey);
+    if (cached) {
+      return await cached.json();
+    }
   }
 
   try {
-
     const profileRes = await fetch(
       "https://api.mojang.com/users/profiles/minecraft/" + encodeURIComponent(username),
-      { cf: { cacheTtl: 86400 } }
-    )
+      { cf: { cacheTtl: newinfo ? 0 : 86400 } } // Nếu newinfo=true, không cache profile
+    );
 
-    if (!profileRes.ok) return null
+    if (!profileRes.ok) return null;
+    const profile = await profileRes.json();
+    const uuid = profile.id;
+    const name = profile.name;
 
-    const profile = await profileRes.json()
-
-    const uuid = profile.id
-    const name = profile.name
-
-    if (!uuid) return null
-
+    if (!uuid) return null;
 
     const sessionRes = await fetch(
       `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
-      { cf: { cacheTtl: 86400 } }
-    )
+      { cf: { cacheTtl: newinfo ? 0 : 86400 } } // Nếu newinfo=true, không cache session
+    );
 
-    if (!sessionRes.ok) return null
+    if (!sessionRes.ok) return null;
+    const sessionData = await sessionRes.json();
+    const value = sessionData?.properties?.[0]?.value;
 
-    const sessionData = await sessionRes.json()
+    if (!value) return null;
 
-    const value = sessionData?.properties?.[0]?.value
+    const decoded = JSON.parse(atob(value));
 
-    if (!value) return null
-
-    const decoded = JSON.parse(atob(value))
-
-
+    // DỮ LIỆU LUÔN TRẢ VỀ ĐẦY ĐỦ (Bao gồm cả các link render)
     const result = {
-
       name: name,
       uuid: uuid,
       skin: decoded?.textures?.SKIN?.url ?? null,
       cape: decoded?.textures?.CAPE?.url ?? null,
-      skin3d: `${origin}/api/3dskin/${encodeURIComponent(name)}`
-
-    }
-
-
-    // ======================
-    // NEW INFO
-    // ======================
-
-    if (newinfo) {
-
-      result.skin_render = `https://visage.surgeplay.com/full/512/${uuid}`
-      result.head = `https://minotar.net/helm/${uuid}/100`
-      result.body = `https://minotar.net/body/${uuid}/300`
-
-    }
-
-
+      skin3d: `${origin}/api/3dskin/${encodeURIComponent(name)}`,
+      // Luôn có các trường này vì bạn đã yêu cầu mặc định có đủ thông tin
+      skin_render: `https://visage.surgeplay.com/full/512/${uuid}`,
+      head: `https://minotar.net/helm/${uuid}/100`,
+      body: `https://minotar.net/body/${uuid}/300`
+    };
 
     const response = new Response(JSON.stringify(result), {
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "public, max-age=86400"
+        "Cache-Control": newinfo ? "no-cache" : "public, max-age=86400"
       }
-    })
+    });
 
+    // Chỉ cache nếu không phải là yêu cầu lấy info mới
+    if (!newinfo) {
+      ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    }
 
-    ctx.waitUntil(
-      cache.put(cacheKey, response.clone())
-    )
-
-    return result
-
-  }
-  catch (e) {
-    return null
+    return result;
+  } catch (e) {
+    return null;
   }
 }
 
@@ -199,83 +179,88 @@ async function getUserData(username, origin, ctx, newinfo=false) {
 // ======================
 
 function showDocs(origin) {
-
-return `
+  return `
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-
-<meta charset="UTF-8">
-
-<title>Abc’s Noob Minecraft API</title>
-
-<style>
-
-body{
-background:#0d1117;
-color:#c9d1d9;
-font-family:Consolas,monospace;
-padding:40px;
-line-height:1.6
-}
-
-pre{
-background:#161b22;
-padding:15px;
-border-left:4px solid #58a6ff;
-border-radius:6px
-}
-
-h1,h2{
-color:#58a6ff
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your name | API Documentation</title>
+    <style>
+        :root { --primary: #58a6ff; --bg: #0d1117; --card: #161b22; --text: #c9d1d9; --accent: #238636; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: auto; }
+        .card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #30363d; margin: 20px 0; }
+        input, select { background: #0d1117; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+        button { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        pre { background: #000; padding: 15px; border-radius: 6px; overflow-x: auto; color: #79c0ff; border: 1px solid #30363d; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #30363d; }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <h1>🎮 Your name Minecraft API</h1>
+        
+        
 
-<h1>🎮 Abc’s Noob Minecraft User API</h1>
+        <h2>🚀 Try It Yourself</h2>
+        <div class="card">
+            <input type="text" id="username" placeholder="Nhập username (VD: Dream)">
+            <select id="endpoint">
+                <option value="/api/">/api/ (JSON Data)</option>
+                <option value="/api/3dskin/">/api/3dskin/ (3D Render)</option>
+            </select>
+            <label><input type="checkbox" id="param"> Tham số (newinfo/cape=true)</label>
+            <button onclick="runTest()">Gửi yêu cầu</button>
+            <div id="result-area" style="display:none;">
+                <p>Kết quả:</p>
+                <pre id="output">Đang tải...</pre>
+            </div>
+        </div>
 
-<p>API tra cứu thông tin Minecraft Java.</p>
+        <h2>📜 Bảng mã trạng thái (Status Codes)</h2>
+        <div class="card">
+            <table>
+                <tr><th>Code</th><th>Mô tả</th></tr>
+                <tr><td>200</td><td>Thành công: Dữ liệu được trả về.</td></tr>
+                <tr><td>404</td><td>Không tìm thấy: Username không tồn tại hoặc tài khoản Crack.</td></tr>
+                <tr><td>500</td><td>Lỗi Server: Mojang API hoặc Worker gặp sự cố.</td></tr>
+            </table>
+        </div>
 
-<h2>Lấy thông tin người chơi</h2>
+        <h2>🛠 Thông số API chi tiết</h2>
+        <div class="card">
+            <p><strong>?newinfo=true</strong>: Bypass Cache, ép buộc lấy dữ liệu tươi nhất từ Mojang.</p>
+            <p><strong>?cape=true</strong>: Chỉ áp dụng cho 3dskin, hiển thị áo choàng của người chơi.</p>
+        </div>
+    </div>
 
-<pre>
-GET ${origin}/api/Dream
-</pre>
-
-<h2>Lấy info mới nhất</h2>
-
-<pre>
-GET ${origin}/api/Dream?newinfo=true
-</pre>
-
-<h2>Skin 3D</h2>
-
-<pre>
-${origin}/api/3dskin/Dream
-</pre>
-
-<h2>Skin 3D + Cape</h2>
-
-<pre>
-${origin}/api/3dskin/Dream?cape=true
-</pre>
-
-<footer style="margin-top:40px;color:#555">
-
-© 2024-${new Date().getFullYear()} Abc’s Noob API<br>
-Fanmade API – không thuộc Mojang/Microsoft.
-
-</footer>
-
+    <script>
+        async function runTest() {
+            const user = document.getElementById('username').value;
+            const path = document.getElementById('endpoint').value;
+            const isParam = document.getElementById('param').checked;
+            const query = isParam ? (path.includes('3dskin') ? '?cape=true' : '?newinfo=true') : '';
+            const url = '${origin}' + path + user + query;
+            
+            document.getElementById('result-area').style.display = 'block';
+            const output = document.getElementById('output');
+            
+            try {
+                const res = await fetch(url);
+                if(path.includes('3dskin')) {
+                    output.innerHTML = "Trình duyệt đang tải 3D Skin tại: <a href='" + url + "' target='_blank'>" + url + "</a>";
+                } else {
+                    const data = await res.json();
+                    output.textContent = JSON.stringify(data, null, 2);
+                }
+            } catch(e) { output.textContent = "Lỗi kết nối!"; }
+        }
+    </script>
 </body>
-
 </html>
-`
+  `;
 }
 
 
@@ -377,7 +362,7 @@ border-radius:50%;
 
 <div id="skin_container"></div>
 
-<p>Made with ❤️ by <a href="https://abcsnoob.github.io">Abc's Noob</a></p>
+<p>Made with ❤️ by <a href="https://abcsnoob.github.io">Abc's Noob</a>and<p>your name</p></p>
 
 <script>
 
